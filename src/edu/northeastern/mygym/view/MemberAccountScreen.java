@@ -1,4 +1,6 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.database.DatabaseConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -20,7 +22,7 @@ public class MemberAccountScreen extends JFrame {
 
         // Initialize database connection
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mygym", "root", "sql123456");
+            connection = DriverManager.getConnection(DatabaseConstants.URL, DatabaseConstants.USERNAME, DatabaseConstants.PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error connecting to the database: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
@@ -86,8 +88,6 @@ public class MemberAccountScreen extends JFrame {
     }
 
 
-
-
     private void displayProfileInformation(String username, String name, String email) {
         // Replace these lines with your actual UI components
         JLabel usernameLabel = new JLabel("Username: " + username);
@@ -117,7 +117,7 @@ public class MemberAccountScreen extends JFrame {
         return updateProfileButton;
     }
 
- // ... (previous code)
+    // ... (previous code)
 
     private void openUpdateProfileScreen(String username) {
         JFrame updateProfileFrame = new JFrame("Update Profile");

@@ -1,10 +1,9 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.model;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
-public class CourseInformation {
+public class Course {
     private String courseCode;
     private String courseName;
     private String schedule;
@@ -14,7 +13,7 @@ public class CourseInformation {
     // 添加静态成员用于保存用户信息
     private static String loggedInUsername;
 
-    public CourseInformation(String courseCode, String courseName, String schedule, String equipment, int capacity) {
+    public Course(String courseCode, String courseName, String schedule, String equipment, int capacity) {
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.schedule = schedule;
@@ -28,11 +27,11 @@ public class CourseInformation {
     }
 
     // 在displayCourseInformation方法中使用loggedInUsername
-    public static void displayCourseInformation(List<CourseInformation> courseList) {
+    public static void displayCourseInformation(List<Course> courseList) {
         JTextArea textArea = new JTextArea();
         textArea.append("Logged In User: " + loggedInUsername + "\n");
 
-        for (CourseInformation course : courseList) {
+        for (Course course : courseList) {
             textArea.append(course.toString() + "\n");
         }
 

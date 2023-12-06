@@ -1,4 +1,7 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,7 +51,7 @@ public class UpdateMemberDialog extends JDialog {
                 try {
                     String searchUsername = searchUsernameField.getText();
                     // Call a method to get the existing name and email based on the username
-                    UserInformation existingUser = DatabaseHelper.getUserInfoByUsername(searchUsername);
+                    User existingUser = DatabaseHelper.getUserInfoByUsername(searchUsername);
 
                     if (existingUser != null) {
                         existingNameLabel.setText(existingUser.getName());

@@ -1,4 +1,7 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.Reservation;
 
 import javax.swing.*;
 import java.awt.*;
@@ -31,12 +34,12 @@ public class CourseManagementScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<ReservationInformation> reservations = DatabaseHelper.getAllReservations();
+                    List<Reservation> reservations = DatabaseHelper.getAllReservations();
                     
                     // Display reservations using JOptionPane
                     StringBuilder reservationInfo = new StringBuilder("Reservations:\n");
-                    for (ReservationInformation reservation : reservations) {
-                        reservationInfo.append("ID: ").append(reservation.getReservationID())
+                    for (Reservation reservation : reservations) {
+                        reservationInfo.append("ID: ").append(reservation.getReservationId())
                                 .append(", Course Code: ").append(reservation.getCourseCode())
                                 .append(", Course Name: ").append(reservation.getCourseName())
                                 .append(", User: ").append(reservation.getUserName())

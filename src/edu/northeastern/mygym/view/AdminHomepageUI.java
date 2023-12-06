@@ -1,3 +1,5 @@
+package edu.northeastern.mygym.view;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

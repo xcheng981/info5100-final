@@ -1,4 +1,6 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.App;
 
 import javax.swing.*;
 import java.awt.*;

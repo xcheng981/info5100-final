@@ -1,4 +1,4 @@
-package view;
+package edu.northeastern.mygym.view;
 
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
@@ -10,7 +10,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;

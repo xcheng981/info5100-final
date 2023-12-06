@@ -1,5 +1,9 @@
 package edu.northeastern.mygym;
 
+import edu.northeastern.mygym.database.DatabaseConstants;
+import edu.northeastern.mygym.view.AdminHomepage;
+import edu.northeastern.mygym.view.MemberHomepage;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -22,7 +26,7 @@ public class App extends JFrame {
 
     public App() {
         try {
-            connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/mygym", "root", "sql123456");
+            connection = DriverManager.getConnection(DatabaseConstants.URL, DatabaseConstants.USERNAME, DatabaseConstants.PASSWORD);
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Error connecting to the database", "Error", JOptionPane.ERROR_MESSAGE);

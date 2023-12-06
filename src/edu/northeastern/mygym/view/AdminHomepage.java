@@ -1,12 +1,11 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
 
+import edu.northeastern.mygym.App;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
-import java.sql.SQLException;
 
 
 public class AdminHomepage extends JFrame {

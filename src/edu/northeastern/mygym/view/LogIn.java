@@ -1,4 +1,4 @@
-package view;
+package edu.northeastern.mygym.view;
 
 import java.awt.EventQueue;
 
@@ -10,13 +10,12 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import model.UserType;
+import edu.northeastern.mygym.model.user.UserType;
 
 import javax.swing.JLabel;
 import java.awt.Font;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
-import javax.swing.JTextPane;
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 

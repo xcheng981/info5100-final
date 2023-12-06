@@ -1,4 +1,8 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.database;
+
+import edu.northeastern.mygym.model.Course;
+import edu.northeastern.mygym.model.Reservation;
+import edu.northeastern.mygym.model.user.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,17 +15,16 @@ import javax.swing.JOptionPane;
 
 public class DatabaseHelper {
     // Example method to fetch the first 10 courses from the database
-    public static List<CourseInformation> getFirst10Courses() throws SQLException {
-        List<CourseInformation> courses = new ArrayList<>();
+
+    public static List<Course> getFirst10Courses() throws SQLException {
+        List<Course> courses = new ArrayList<>();
         Connection connection = null;
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String username = "root"; // replace with your MySQL username
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             String sql = "SELECT * FROM course LIMIT 10";
             try (PreparedStatement statement = connection.prepareStatement(sql);
@@ -34,7 +37,7 @@ public class DatabaseHelper {
                     String equipment = resultSet.getString("equipment");
                     int capacity = resultSet.getInt("capacity");
 
-                    CourseInformation course = new CourseInformation(courseCode, courseName, schedule, equipment, capacity);
+                    Course course = new Course(courseCode, courseName, schedule, equipment, capacity);
                     courses.add(course);
                 }
             }
@@ -52,11 +55,9 @@ public class DatabaseHelper {
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String username = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // Check if the user has already reserved the course
             if (!hasUserReservedCourse(connection, loggedInName, courseCode)) {
@@ -140,17 +141,15 @@ public class DatabaseHelper {
         return false;
     }
 
-    public static List<ReservationInformation> getUserReservations(String loggedInName) throws SQLException {
-        List<ReservationInformation> userReservations = new ArrayList<>();
+    public static List<Reservation> getUserReservations(String loggedInName) throws SQLException {
+        List<Reservation> userReservations = new ArrayList<>();
         Connection connection = null;
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String username = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // Ensure that the column name for username is correct in the SQL query
             String sql = "SELECT * FROM reservation WHERE name = ?";
@@ -163,7 +162,7 @@ public class DatabaseHelper {
                         String courseName = resultSet.getString("courseName");
                         String userName = resultSet.getString("name");
 
-                        ReservationInformation reservation = new ReservationInformation(reservationID, courseCode, courseName, userName);
+                        Reservation reservation = new Reservation(reservationID, courseCode, courseName, userName);
                         userReservations.add(reservation);
                     }
                 }
@@ -182,11 +181,9 @@ public class DatabaseHelper {
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String username = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // Fetch courseCode for the canceled reservation
             String getCourseCodeSql = "SELECT courseCode FROM reservation WHERE reservationID = ?";
@@ -222,17 +219,15 @@ public class DatabaseHelper {
         }
     }
     
-    public static List<UserInformation> getMembers() throws SQLException {
-        List<UserInformation> members = new ArrayList<>();
+    public static List<User> getMembers() throws SQLException {
+        List<User> members = new ArrayList<>();
         Connection connection = null;
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDB = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDB, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             String sql = "SELECT * FROM user WHERE userType = 'member'";
             try (PreparedStatement statement = connection.prepareStatement(sql);
@@ -243,7 +238,7 @@ public class DatabaseHelper {
                     String name = resultSet.getString("name");
                     String email = resultSet.getString("email");
 
-                    UserInformation member = new UserInformation(memberUsername, name, email);
+                    User member = new User(memberUsername, name, email);
                     members.add(member);
                 }
             }
@@ -261,11 +256,9 @@ public class DatabaseHelper {
 
         try {
             // 获取数据库连接信息
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDb = "root";
-            String passwordDb = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDb, passwordDb);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // 执行插入会员的 SQL 语句
             String sql = "INSERT INTO user (username, name, email, userType) VALUES (?, ?, ?, 'member')";
@@ -283,17 +276,15 @@ public class DatabaseHelper {
         }
     }
     
-    public static UserInformation getUserInfoByUsername(String username) throws SQLException {
-        UserInformation user = null;
+    public static User getUserInfoByUsername(String username) throws SQLException {
+        User user = null;
         Connection connection = null;
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDB = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDB, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             String sql = "SELECT * FROM user WHERE username = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -303,7 +294,7 @@ public class DatabaseHelper {
                         String name = resultSet.getString("name");
                         String email = resultSet.getString("email");
 
-                        user = new UserInformation(username, name, email);
+                        user = new User(username, name, email);
                     }
                 }
             }
@@ -322,11 +313,9 @@ public class DatabaseHelper {
 
         try {
             // Replace these details with your actual database connection information
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDB = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDB, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             String sql = "SELECT COUNT(*) AS count FROM user WHERE username = ?";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -353,11 +342,9 @@ public class DatabaseHelper {
 
         try {
             // 获取数据库连接信息
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDb = "root";
-            String passwordDb = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDb, passwordDb);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // 执行更新会员的 SQL 语句
             String sql = "UPDATE user SET name = ?, email = ? WHERE username = ? AND userType = 'member'";
@@ -380,11 +367,9 @@ public class DatabaseHelper {
 
         try {
             // 获取数据库连接信息
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String usernameDb = "root";
-            String passwordDb = "sql123456";
-
-            connection = DriverManager.getConnection(url, usernameDb, passwordDb);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // 执行删除会员的 SQL 语句
             String sql = "DELETE FROM user WHERE username = ? AND userType = 'member'";
@@ -400,17 +385,15 @@ public class DatabaseHelper {
         }
     }
     
-    public static List<ReservationInformation> getAllReservations() throws SQLException {
-        List<ReservationInformation> reservations = new ArrayList<>();
+    public static List<Reservation> getAllReservations() throws SQLException {
+        List<Reservation> reservations = new ArrayList<>();
         Connection connection = null;
 
         try {
             // 替换为你的数据库连接信息
-            String url = "jdbc:mysql://localhost:3306/mygym";
-            String username = "root";
-            String password = "sql123456";
-
-            connection = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(DatabaseConstants.URL,
+                    DatabaseConstants.USERNAME,
+                    DatabaseConstants.PASSWORD);
 
             // 查询所有预约信息
             String sql = "SELECT * FROM reservation";
@@ -423,7 +406,7 @@ public class DatabaseHelper {
                     String courseName = resultSet.getString("courseName");
                     String userName = resultSet.getString("name");
 
-                    ReservationInformation reservation = new ReservationInformation(reservationID, courseCode, courseName, userName);
+                    Reservation reservation = new Reservation(reservationID, courseCode, courseName, userName);
                     reservations.add(reservation);
                 }
             }

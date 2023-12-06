@@ -1,4 +1,4 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,9 +9,8 @@ import java.util.List;
 
 // Import statements for the missing dialog classes
 // Replace "path.to" with the actual package path
-import edu.northeastern.mygym.AddMemberDialog;
-import edu.northeastern.mygym.UpdateMemberDialog;
-import edu.northeastern.mygym.DeleteMemberDialog;
+import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.User;
 
 public class MembershipManagementScreen extends JFrame {
     private String loggedInUsername;
@@ -41,7 +40,7 @@ public class MembershipManagementScreen extends JFrame {
 	        public void actionPerformed(ActionEvent e) {
 	            try {
 	                // 获取数据库中 userType 为 "member" 的所有用户信息
-	                List<UserInformation> members = DatabaseHelper.getMembers();
+	                List<User> members = DatabaseHelper.getMembers();
 
 	                // 显示会员信息（可以使用表格或其他控件）
 	                showMemberInformation(members);
@@ -55,7 +54,7 @@ public class MembershipManagementScreen extends JFrame {
 	}
 
 	// 在这里添加一个方法用于显示会员信息
-	private void showMemberInformation(List<UserInformation> members) {
+	private void showMemberInformation(List<User> members) {
 	    // 创建一个新的窗口或对话框来显示会员信息
 	    JFrame memberInfoFrame = new JFrame("Member Information");
 	    memberInfoFrame.setLayout(new BorderLayout());
@@ -63,8 +62,8 @@ public class MembershipManagementScreen extends JFrame {
 	    // 创建表格或其他组件来显示会员信息
 	    // 这里使用一个简单的文本区域来显示
 	    JTextArea textArea = new JTextArea();
-	    for (UserInformation member : members) {
-	        textArea.append("Username: " + member.getUsername() + "\n");
+	    for (User member : members) {
+	        textArea.append("Username: " + member.getUserName() + "\n");
 	        textArea.append("Name: " + member.getName() + "\n");
 	        textArea.append("Email: " + member.getEmail() + "\n");
 	        textArea.append("\n");

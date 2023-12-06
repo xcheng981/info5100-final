@@ -1,20 +1,20 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.model;
 
-public class ReservationInformation {
-    private int reservationID;
+public class Reservation {
+    private int reservationId;
     private String courseCode;
     private String courseName;
     private String userName;
 
-    public ReservationInformation(int reservationID, String courseCode, String courseName, String userName) {
-        this.reservationID = reservationID;
+    public Reservation(int reservationId, String courseCode, String courseName, String userName) {
+        this.reservationId = reservationId;
         this.courseCode = courseCode;
         this.courseName = courseName;
         this.userName = userName;
     }
 
-    public int getReservationID() {
-        return reservationID;
+    public int getReservationId() {
+        return reservationId;
     }
 
     public String getCourseCode() {
@@ -32,7 +32,7 @@ public class ReservationInformation {
     @Override
     public String toString() {
         // Customize the string representation for display
-        return "Reservation ID: " + reservationID +
+        return "Reservation Id: " + reservationId +
                ", Course Code: " + courseCode +
                ", Course Name: " + courseName +
                ", User Name: " + userName;

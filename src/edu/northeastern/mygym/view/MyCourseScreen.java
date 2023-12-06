@@ -1,4 +1,8 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.model.Course;
+import edu.northeastern.mygym.model.Reservation;
+import edu.northeastern.mygym.database.DatabaseHelper;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +37,7 @@ public class MyCourseScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<CourseInformation> courseList = DatabaseHelper.getFirst10Courses();
+                    List<Course> courseList = DatabaseHelper.getFirst10Courses();
                     displayCourseInformation(courseList);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -44,12 +48,12 @@ public class MyCourseScreen extends JFrame {
     }
 
     // Display course information as an instance method
-    private void displayCourseInformation(List<CourseInformation> courseList) {
+    private void displayCourseInformation(List<Course> courseList) {
         // 在调用displayCourseInformation之前设置loggedInUsername
-        CourseInformation.setLoggedInUsername(loggedInUsername);
+        Course.setLoggedInUsername(loggedInUsername);
 
         // 调用CourseInformation类中的静态方法
-        CourseInformation.displayCourseInformation(courseList);
+        Course.displayCourseInformation(courseList);
     }
 
     private JButton createReserveCourseButton() {
@@ -92,7 +96,7 @@ public class MyCourseScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<ReservationInformation> userReservations = DatabaseHelper.getUserReservations(loggedInUsername);
+                    List<Reservation> userReservations = DatabaseHelper.getUserReservations(loggedInUsername);
 
                     // Display a dialog with custom buttons for cancel reservation and go back
                     String[] options = {"Cancel Reservation", "Go Back"};
@@ -109,7 +113,7 @@ public class MyCourseScreen extends JFrame {
                         for (int i = 0; i < checkboxes.length; i++) {
                             if (checkboxes[i].isSelected()) {
                                 // Cancel the selected reservation
-                                DatabaseHelper.cancelReservation(userReservations.get(i).getReservationID());
+                                DatabaseHelper.cancelReservation(userReservations.get(i).getReservationId());
                             }
                         }
                         JOptionPane.showMessageDialog(null, "Reservations canceled successfully!");

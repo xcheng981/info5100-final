@@ -1,4 +1,4 @@
-package model;
+package edu.northeastern.mygym.model.user;
 
 public enum UserType {
 	ADMIN("Admin",0),

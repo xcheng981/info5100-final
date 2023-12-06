@@ -1,4 +1,4 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.database;
 
 import java.sql.*;
 public class DatabaseConnection {
@@ -13,11 +13,10 @@ public class DatabaseConnection {
         }
 
         // Step 2: Establish a connection
-        String url = "jdbc:mysql://localhost:3306/mygym";
-        String username = "root"; // replace with your MySQL username
-        String password = "sql123456";
 
-        try (Connection connection = DriverManager.getConnection(url, username, password)) {
+        try (Connection connection = DriverManager.getConnection(DatabaseConstants.URL,
+                DatabaseConstants.USERNAME,
+                DatabaseConstants.PASSWORD)) {
 
             // Step 3: Create a statement
             try (Statement statement = connection.createStatement()) {

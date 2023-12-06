@@ -1,4 +1,4 @@
-package view;
+package edu.northeastern.mygym.view;
 
 import java.awt.EventQueue;
 

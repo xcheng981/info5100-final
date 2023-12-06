@@ -1,4 +1,7 @@
-package edu.northeastern.mygym;
+package edu.northeastern.mygym.view;
+
+import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +44,7 @@ public class DeleteMemberDialog extends JDialog {
                 try {
                     String username = usernameField.getText();
                     // Call a method to get the existing name and email based on the username
-                    UserInformation existingUser = DatabaseHelper.getUserInfoByUsername(username);
+                    User existingUser = DatabaseHelper.getUserInfoByUsername(username);
 
                     if (existingUser != null) {
                         memberInfoArea.setText("Name: " + existingUser.getName() + "\nEmail: " + existingUser.getEmail());
