@@ -10,7 +10,7 @@ public class Course {
     private String equipment;
     private int capacity;
 
-    // 添加静态成员用于保存用户信息
+    // Add a static object to store user information.
     private static String loggedInUsername;
 
     public Course(String courseCode, String courseName, String schedule, String equipment, int capacity) {
@@ -21,12 +21,12 @@ public class Course {
         this.capacity = capacity;
     }
 
-    // 设置loggedInUsername的静态方法
+    // Create a static method for setting the loggedInUsername.
     public static void setLoggedInUsername(String username) {
         loggedInUsername = username;
     }
 
-    // 在displayCourseInformation方法中使用loggedInUsername
+    // Utilize loggedInUsername in the displayCourseInformation method.
     public static void displayCourseInformation(List<Course> courseList) {
         JTextArea textArea = new JTextArea();
         textArea.append("Logged In User: " + loggedInUsername + "\n");
