@@ -165,13 +165,19 @@ public class MyCourseScreen extends JFrame {
 
                     if ((Integer) optionPane.getValue() == JOptionPane.OK_OPTION) {
                         // Process selected reservations for cancellation
+                        boolean anyReservationCanceled = false;
                         for (int i = 0; i < userReservations.size(); i++) {
                             if ((Boolean) reservationTable.getValueAt(i, 0)) {
                                 // Cancel the selected reservation
                                 loggedInMember.cancelReservation(userReservations.get(i).getReservationId());
+                                anyReservationCanceled = true;
                             }
                         }
-                        JOptionPane.showMessageDialog(null, "Reservations canceled successfully!");
+                        if (anyReservationCanceled) {
+                            JOptionPane.showMessageDialog(null, "Reservations canceled successfully!");
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No reservations were selected for cancellation.");
+                        }
                     } else {
                         // User clicked "Cancel" or closed the dialog
                         JOptionPane.showMessageDialog(null, "Cancellation operation aborted.");
