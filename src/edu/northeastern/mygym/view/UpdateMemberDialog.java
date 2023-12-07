@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class UpdateMemberDialog extends JDialog {
+    private static final int FONT_SIZE = 22; // Font size constant
     private Admin admin;
     private JTextField searchUsernameField;
     private JLabel existingNameLabel;
@@ -23,30 +24,41 @@ public class UpdateMemberDialog extends JDialog {
         initializeComponents();
     }
 
+    private void setFontSize(JComponent component) {
+        Font font = new Font("Arial", Font.BOLD, FONT_SIZE);
+        component.setFont(font);
+    }
+    
     private void initializeComponents() {
         setLayout(new GridLayout(6, 2));
 
-        add(new JLabel("Search Username:"));
+        add(createLabeledTextField("Search Username:"));
         searchUsernameField = new JTextField();
+        setFontSize(searchUsernameField);
         add(searchUsernameField);
 
-        add(new JLabel("Existing Name:"));
+        add(createLabeledTextField("Existing Name:"));
         existingNameLabel = new JLabel();
+        setFontSize(existingNameLabel);
         add(existingNameLabel);
 
-        add(new JLabel("Existing Email:"));
+        add(createLabeledTextField("Existing Email:"));
         existingEmailLabel = new JLabel();
+        setFontSize(existingEmailLabel);
         add(existingEmailLabel);
 
-        add(new JLabel("New Name:"));
+        add(createLabeledTextField("New Name:"));
         newNameField = new JTextField();
+        setFontSize(newNameField);
         add(newNameField);
 
-        add(new JLabel("New Email:"));
+        add(createLabeledTextField("New Email:"));
         newEmailField = new JTextField();
+        setFontSize(newEmailField);
         add(newEmailField);
 
         JButton searchButton = new JButton("Search");
+        setFontSize(searchButton);
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -73,6 +85,7 @@ public class UpdateMemberDialog extends JDialog {
         add(searchButton);
 
         JButton updateButton = new JButton("Update Member");
+        setFontSize(updateButton);
         updateButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,11 +121,23 @@ public class UpdateMemberDialog extends JDialog {
         });
         add(updateButton);
 
-        pack();
+        setSize(700, 500); // Set window size
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
+    private JPanel createLabeledTextField(String labelText) {
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        
+        // Create label with left margin
+        JLabel label = new JLabel(labelText);
+        label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 50)); // Add left margin
+        setFontSize(label);
+        
+        panel.add(label);
+        return panel;
+    }
+    
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
