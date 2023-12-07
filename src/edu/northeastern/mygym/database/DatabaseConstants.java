@@ -6,5 +6,5 @@ public class DatabaseConstants {
     // replace with your MySQL username
     public static final String USERNAME = "root";
     // replace with your MySQL password
-    public static final String PASSWORD = "sql123456";
+    public static final String PASSWORD = "lijie911010";
 }
