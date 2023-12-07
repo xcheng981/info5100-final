@@ -19,7 +19,7 @@ public class DatabaseHelper {
     }
     // Example method to fetch the first 10 courses from the database
 
-    public static List<Course> getFirst10Courses() throws SQLException {
+    public List<Course> getFirst10Courses() throws SQLException {
         List<Course> courses = new ArrayList<>();
         Connection connection = null;
 
@@ -53,7 +53,7 @@ public class DatabaseHelper {
         return courses;
     }
 
-    public static boolean reserveCourse(String loggedInName, String courseCode) throws SQLException {
+    public boolean reserveCourse(String loggedInName, String courseCode) throws SQLException {
         Connection connection = null;
 
         try {
@@ -113,7 +113,7 @@ public class DatabaseHelper {
         }
     }
 
-    private static boolean hasUserReservedCourse(Connection connection, String loggedInName, String courseCode) throws SQLException {
+    private boolean hasUserReservedCourse(Connection connection, String loggedInName, String courseCode) throws SQLException {
         // Example SQL query to check if the user has already reserved the course
         String checkReservationSql = "SELECT COUNT(*) AS count FROM reservation WHERE name = ? AND courseCode = ?";
         try (PreparedStatement checkReservationStatement = connection.prepareStatement(checkReservationSql)) {
@@ -129,7 +129,7 @@ public class DatabaseHelper {
         return false;
     }
 
-    private static boolean isCapacityAvailable(Connection connection, String courseCode) throws SQLException {
+    private boolean isCapacityAvailable(Connection connection, String courseCode) throws SQLException {
         // Example SQL query to check if there is available capacity
         String checkCapacitySql = "SELECT capacity FROM course WHERE courseCode = ?";
         try (PreparedStatement checkCapacityStatement = connection.prepareStatement(checkCapacitySql)) {
@@ -144,7 +144,7 @@ public class DatabaseHelper {
         return false;
     }
 
-    public static List<Reservation> getUserReservations(String loggedInName) throws SQLException {
+    public List<Reservation> getUserReservations(String loggedInName) throws SQLException {
         List<Reservation> userReservations = new ArrayList<>();
         Connection connection = null;
 
@@ -179,7 +179,7 @@ public class DatabaseHelper {
         return userReservations;
     }
 
-    public static void cancelReservation(int reservationID) throws SQLException {
+    public void cancelReservation(int reservationID) throws SQLException {
         Connection connection = null;
 
         try {
@@ -222,7 +222,7 @@ public class DatabaseHelper {
         }
     }
     
-    public static List<User> getMembers() throws SQLException {
+    public List<User> getMembers() throws SQLException {
         List<User> members = new ArrayList<>();
         Connection connection = null;
 
@@ -254,7 +254,7 @@ public class DatabaseHelper {
         return members;
     }
 
-    public static void addMember(String username, String name, String email) throws SQLException {
+    public void addMember(String username, String name, String email) throws SQLException {
         Connection connection = null;
 
         try {
@@ -279,7 +279,7 @@ public class DatabaseHelper {
         }
     }
     
-    public static User getUserInfoByUsername(String username) throws SQLException {
+    public User getUserInfoByUsername(String username) throws SQLException {
         User user = null;
         Connection connection = null;
 
@@ -311,7 +311,7 @@ public class DatabaseHelper {
     }
 
     
-    public static boolean isUsernameDuplicated(String username) throws SQLException {
+    public boolean isUsernameDuplicated(String username) throws SQLException {
         Connection connection = null;
 
         try {
@@ -340,7 +340,7 @@ public class DatabaseHelper {
     }
 
 
-    public static void updateMember(String username, String name, String email) throws SQLException {
+    public void updateMember(String username, String name, String email) throws SQLException {
         Connection connection = null;
 
         try {
@@ -365,7 +365,7 @@ public class DatabaseHelper {
         }
     }
 
-    public static void deleteMember(String username) throws SQLException {
+    public void deleteMember(String username) throws SQLException {
         Connection connection = null;
 
         try {
@@ -388,7 +388,7 @@ public class DatabaseHelper {
         }
     }
     
-    public static List<Reservation> getAllReservations() throws SQLException {
+    public List<Reservation> getAllReservations() throws SQLException {
         List<Reservation> reservations = new ArrayList<>();
         Connection connection = null;
 

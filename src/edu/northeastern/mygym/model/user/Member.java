@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Member extends User {
+    private static final DatabaseHelper DATABASE_HELPER = new DatabaseHelper();
 
     public Member(String userName, String name, String email) {
         super(userName, name, email);
@@ -18,18 +19,18 @@ public class Member extends User {
     }
 
     public List<Course> listFirst10Courses() throws SQLException {
-        return DatabaseHelper.getFirst10Courses();
+        return DATABASE_HELPER.getFirst10Courses();
     }
 
     public List<Reservation> getReservations() throws SQLException {
-        return DatabaseHelper.getUserReservations(getUserName());
+        return DATABASE_HELPER.getUserReservations(getUserName());
     }
 
     public boolean reserveCourse(String courseCode) throws SQLException {
-        return DatabaseHelper.reserveCourse(getUserName(), courseCode);
+        return DATABASE_HELPER.reserveCourse(getUserName(), courseCode);
     }
 
     public void cancelReservation(int reservationId) throws SQLException {
-        DatabaseHelper.cancelReservation(reservationId);
+        DATABASE_HELPER.cancelReservation(reservationId);
     }
 }

@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class App extends JFrame {
+    private static final DatabaseHelper DATABASE_HELPER = new DatabaseHelper();
     private Connection connection;
     private JPanel loginPage;
     private JTextField userNameText;
@@ -140,7 +141,7 @@ public class App extends JFrame {
                     dispose();
 
                     try {
-                        User user = DatabaseHelper.getUserInfoByUsername(username);
+                        User user = DATABASE_HELPER.getUserInfoByUsername(username);
                         if ("Admin".equals(userType)) {
                             Admin admin = new Admin(user.getProfile());
                             new AdminHomepage(admin);
