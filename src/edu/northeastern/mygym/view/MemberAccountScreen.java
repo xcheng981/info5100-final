@@ -1,6 +1,7 @@
 package edu.northeastern.mygym.view;
 
 import edu.northeastern.mygym.database.DatabaseConstants;
+import edu.northeastern.mygym.model.user.Member;
 
 import javax.swing.*;
 import java.awt.*;
@@ -14,10 +15,10 @@ import java.sql.SQLException;
 
 public class MemberAccountScreen extends JFrame {
     private Connection connection; // Database connection
-    private String loggedInUsername; // Keep track of the logged-in username
+    private Member loggedInMember;
 
-    public MemberAccountScreen(String loggedInUsername) {
-        this.loggedInUsername = loggedInUsername;
+    public MemberAccountScreen(Member loggedInMember) {
+        this.loggedInMember = loggedInMember;
         initializeComponents();
 
         // Initialize database connection
@@ -30,93 +31,52 @@ public class MemberAccountScreen extends JFrame {
         }
 
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH); // Maximize the window
+        pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
     private void initializeComponents() {
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS)); // Use BoxLayout with Y_AXIS
-
-        // Create an empty panel to fill the remaining space
-        JPanel emptyPanel1 = new JPanel();
-        add(emptyPanel1);
-
-        JPanel buttonsPanel = new JPanel(new GridLayout(1, 3)); // Increase the number of columns to 3
-        JButton viewProfileButton = createViewProfileButton();
-        JButton updateProfileButton = createUpdateProfileButton();
-
-        // Set a larger font size for the buttons
-        viewProfileButton.setFont(new Font("Arial", Font.BOLD, 25));
-        updateProfileButton.setFont(new Font("Arial", Font.BOLD, 25));
-
-        JPanel emptySpacePanel1 = new JPanel();
-        buttonsPanel.add(emptySpacePanel1);
-
-        
-        buttonsPanel.add(viewProfileButton);
-
-        // Add an empty panel for spacing
-        JPanel emptySpacePanel2 = new JPanel();
-        buttonsPanel.add(emptySpacePanel2);
-
-        buttonsPanel.add(updateProfileButton);
-        
-        JPanel emptySpacePanel3 = new JPanel();
-        buttonsPanel.add(emptySpacePanel3);
-
-
-        // Set preferred size for buttonsPanel to make it taller
-        buttonsPanel.setPreferredSize(new Dimension(800, 100)); // Adjust the width accordingly
-
-        add(buttonsPanel);
-
-        JPanel emptyPanel2 = new JPanel();
-        add(emptyPanel2);
-
-        // Add the Go Back button and adjust its height
-        JPanel goBackPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JButton goBackButton = createGoBackButton();
-
-        // Set a larger font size for the Go Back button
-        goBackButton.setFont(new Font("Arial", Font.PLAIN, 25));
-
-        // Set preferred size for the Go Back button to make it larger
-        goBackButton.setPreferredSize(new Dimension(200, 60));
-
-        goBackPanel.add(goBackButton);
-        add(goBackPanel);
+        setLayout(new GridLayout(3, 1));
+        add(createViewProfileButton());
+        add(createUpdateProfileButton());
+        add(createGoBackButton());
     }
-
 
     private JButton createViewProfileButton() {
         JButton viewProfileButton = new JButton("View Profile");
         viewProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                viewMemberProfile(loggedInUsername);
+                viewMemberProfile(loggedInMember.getUserName());
             }
         });
         return viewProfileButton;
     }
 
-
     private void viewMemberProfile(String username) {
         try {
             String query = "SELECT * FROM user WHERE username = ?";
-            System.out.println("Username: " + username);
+            System.out.println("Username: " + username);  // Add this line for debugging
 
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, username);
 
+                // Execute the query
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
                         // Retrieve user information
                         String name = resultSet.getString("name");
                         String email = resultSet.getString("email");
 
-                        // Display user information in a maximized window
-                        displayProfileInformation(username, name, email);
+                        // Display user information
+                        System.out.println("Name: " + name);
+                        System.out.println("Email: " + email);
+
+                        JOptionPane.showMessageDialog(MemberAccountScreen.this,
+                                "Username: " + username + "\nName: " + name + "\nEmail: " + email,
+                                "Member Profile",
+                                JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(MemberAccountScreen.this, "User not found", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -128,27 +88,12 @@ public class MemberAccountScreen extends JFrame {
         }
     }
 
+
     private void displayProfileInformation(String username, String name, String email) {
         // Replace these lines with your actual UI components
         JLabel usernameLabel = new JLabel("Username: " + username);
         JLabel nameLabel = new JLabel("Name: " + name);
         JLabel emailLabel = new JLabel("Email: " + email);
-
-        // Set font size for each label
-        Font labelFont = new Font("Arial", Font.PLAIN, 22);
-        usernameLabel.setFont(labelFont);
-        nameLabel.setFont(labelFont);
-        emailLabel.setFont(labelFont);
-
-        // Set horizontal alignment to center for each label
-        usernameLabel.setHorizontalAlignment(JLabel.CENTER);
-        nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        emailLabel.setHorizontalAlignment(JLabel.CENTER);
-
-        // Set vertical alignment to center for each label
-        usernameLabel.setVerticalAlignment(JLabel.CENTER);
-        nameLabel.setVerticalAlignment(JLabel.CENTER);
-        emailLabel.setVerticalAlignment(JLabel.CENTER);
 
         // Create a panel to hold the labels
         JPanel panel = new JPanel();
@@ -158,17 +103,7 @@ public class MemberAccountScreen extends JFrame {
         panel.add(emailLabel);
 
         // Display the panel in a dialog
-        JDialog dialog = new JDialog(MemberAccountScreen.this, "Member Profile", true);
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-
-        // Set a preferred size for the panel (adjust as needed)
-        panel.setPreferredSize(new Dimension(500, 250));
-
-        // Pack the dialog to adjust its size based on the preferred size of the panel
-        dialog.add(panel);
-        dialog.pack();
-        dialog.setLocationRelativeTo(null); // Center the dialog on the screen
-        dialog.setVisible(true);
+        JOptionPane.showMessageDialog(MemberAccountScreen.this, panel, "Member Profile", JOptionPane.INFORMATION_MESSAGE);
     }
 
 
@@ -177,7 +112,7 @@ public class MemberAccountScreen extends JFrame {
         updateProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                openUpdateProfileScreen(loggedInUsername);
+                openUpdateProfileScreen(loggedInMember.getUserName());
             }
         });
         return updateProfileButton;
@@ -232,29 +167,10 @@ public class MemberAccountScreen extends JFrame {
         updateProfileFrame.add(cancelButton); // Add the Cancel button
 
         updateProfileFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        // Set the size of the updateProfileFrame to (500, 250)
-        updateProfileFrame.setSize(500, 250);
-
-        // Set the font size for all components in the frame
-        Font font = new Font("Arial", Font.PLAIN, 22);
-        Component[] components = updateProfileFrame.getContentPane().getComponents();
-        for (Component component : components) {
-            if (component instanceof JComponent) {
-                ((JComponent) component).setFont(font);
-
-                // Add some padding between JLabel and the border
-                if (component instanceof JLabel) {
-                    ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 50, 0, 0));
-                }
-            }
-        }
-
+        updateProfileFrame.pack();
         updateProfileFrame.setLocationRelativeTo(null);
         updateProfileFrame.setVisible(true);
     }
-
-
 
     private void loadUserInformation(String username, JTextField nameField, JTextField emailField) {
         // Load the existing user information from the database and set it in the fields
@@ -320,7 +236,7 @@ public class MemberAccountScreen extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Perform actions to go back
                 // For example, show the previous screen
-                new MemberHomepage(); // Assuming MemberHomepage is your previous screen
+                new MemberHomepage(loggedInMember); // Assuming MemberHomepage is your previous screen
                 dispose(); // Close the current member account screen
             }
         });

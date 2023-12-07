@@ -1,6 +1,6 @@
 package edu.northeastern.mygym.view;
 
-import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.Admin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,12 +9,15 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class AddMemberDialog extends JDialog {
+
+    private Admin admin;
     private JTextField usernameField;
     private JTextField nameField;
     private JTextField emailField;
 
-    public AddMemberDialog(JFrame parent) {
+    public AddMemberDialog(JFrame parent, Admin admin) {
         super(parent, "Add Member", true);
+        this.admin = admin;
         initializeComponents();
     }
 
@@ -49,13 +52,13 @@ public class AddMemberDialog extends JDialog {
                     }
 
                     // Check for username duplication
-                    if (DatabaseHelper.isUsernameDuplicated(username)) {
+                    if (admin.isUsernameDuplicated(username)) {
                         JOptionPane.showMessageDialog(null, "Username is already taken. Please choose a different one.", "Username Error", JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
                     // Call a method to add the member to the database
-                    DatabaseHelper.addMember(username, name, email);
+                    admin.addMember(username, name, email);
 
                     // Close the dialog after adding the member
                     dispose();

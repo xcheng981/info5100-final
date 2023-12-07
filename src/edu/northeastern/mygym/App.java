@@ -1,6 +1,10 @@
 package edu.northeastern.mygym;
 
 import edu.northeastern.mygym.database.DatabaseConstants;
+import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.Admin;
+import edu.northeastern.mygym.model.user.Member;
+import edu.northeastern.mygym.model.user.User;
 import edu.northeastern.mygym.view.AdminHomepage;
 import edu.northeastern.mygym.view.MemberHomepage;
 
@@ -135,10 +139,17 @@ public class App extends JFrame {
                 } else if (validateUser(username, password, userType)) {
                     dispose();
 
-                    if ("Admin".equals(userType)) {
-                        new AdminHomepage();
-                    } else if ("Member".equals(userType)) {
-                        new MemberHomepage(username);
+                    try {
+                        User user = DatabaseHelper.getUserInfoByUsername(username);
+                        if ("Admin".equals(userType)) {
+                            Admin admin = new Admin(user.getProfile());
+                            new AdminHomepage(admin);
+                        } else if ("Member".equals(userType)) {
+                            Member member = new Member(user.getProfile());
+                            new MemberHomepage(member);
+                        }
+                    } catch (SQLException ex) {
+                        throw new RuntimeException(ex);
                     }
                 } else {
                     JOptionPane.showMessageDialog(loginFormPanel, "Invalid username, password, or userType", "Error", JOptionPane.ERROR_MESSAGE);

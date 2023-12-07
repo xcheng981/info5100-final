@@ -1,6 +1,6 @@
 package edu.northeastern.mygym.view;
 
-import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.Admin;
 import edu.northeastern.mygym.model.user.User;
 
 import javax.swing.*;
@@ -10,11 +10,13 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class DeleteMemberDialog extends JDialog {
+    private Admin admin;
     private JTextField usernameField;
     private JTextArea memberInfoArea;
 
-    public DeleteMemberDialog(JFrame parent) {
+    public DeleteMemberDialog(JFrame parent, Admin admin) {
         super(parent, "Delete Member", true);
+        this.admin = admin;
         initializeComponents();
     }
 
@@ -44,7 +46,7 @@ public class DeleteMemberDialog extends JDialog {
                 try {
                     String username = usernameField.getText();
                     // Call a method to get the existing name and email based on the username
-                    User existingUser = DatabaseHelper.getUserInfoByUsername(username);
+                    User existingUser = admin.getUserInfoByUserName(username);
 
                     if (existingUser != null) {
                         memberInfoArea.setText("Name: " + existingUser.getName() + "\nEmail: " + existingUser.getEmail());
@@ -71,7 +73,7 @@ public class DeleteMemberDialog extends JDialog {
                         String username = usernameField.getText();
 
                         // Call a method to delete the member from the database
-                        DatabaseHelper.deleteMember(username);
+                        admin.deleteMember(username);
 
                         // Inform the user about the successful deletion
                         JOptionPane.showMessageDialog(null, "Member deleted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);

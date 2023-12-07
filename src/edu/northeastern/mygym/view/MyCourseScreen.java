@@ -2,7 +2,7 @@ package edu.northeastern.mygym.view;
 
 import edu.northeastern.mygym.model.Course;
 import edu.northeastern.mygym.model.Reservation;
-import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.Member;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,10 +12,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class MyCourseScreen extends JFrame {
-    private String loggedInUsername;
+    private Member loggedInMember;
 
-    public MyCourseScreen(String loggedInUsername) {
-        this.loggedInUsername = loggedInUsername;
+    public MyCourseScreen(Member loggedInMember) {
+        this.loggedInMember = loggedInMember;
         initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -37,8 +37,8 @@ public class MyCourseScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Course> courseList = DatabaseHelper.getFirst10Courses();
-                    displayCourseInformation(courseList);
+                    List<Course> courses = loggedInMember.listFirst10Courses();
+                    displayCourseInformation(courses);
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 }
@@ -50,7 +50,7 @@ public class MyCourseScreen extends JFrame {
     // Display course information as an instance method
     private void displayCourseInformation(List<Course> courseList) {
         // 在调用displayCourseInformation之前设置loggedInUsername
-        Course.setLoggedInUsername(loggedInUsername);
+        Course.setLoggedInUsername(loggedInMember.getUserName());
 
         // 调用CourseInformation类中的静态方法
         Course.displayCourseInformation(courseList);
@@ -78,7 +78,7 @@ public class MyCourseScreen extends JFrame {
 
     private void reserveCourse(String courseCode) {
         try {
-            if (DatabaseHelper.reserveCourse(loggedInUsername, courseCode)) {
+            if (loggedInMember.reserveCourse(courseCode)) {
                 // Reservation was successful, show success message
                 JOptionPane.showMessageDialog(null, "Course reserved successfully!");
             } else {
@@ -96,7 +96,7 @@ public class MyCourseScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Reservation> userReservations = DatabaseHelper.getUserReservations(loggedInUsername);
+                    List<Reservation> userReservations = loggedInMember.getReservations();
 
                     // Display a dialog with custom buttons for cancel reservation and go back
                     String[] options = {"Cancel Reservation", "Go Back"};
@@ -113,7 +113,7 @@ public class MyCourseScreen extends JFrame {
                         for (int i = 0; i < checkboxes.length; i++) {
                             if (checkboxes[i].isSelected()) {
                                 // Cancel the selected reservation
-                                DatabaseHelper.cancelReservation(userReservations.get(i).getReservationId());
+                                loggedInMember.cancelReservation(userReservations.get(i).getReservationId());
                             }
                         }
                         JOptionPane.showMessageDialog(null, "Reservations canceled successfully!");
@@ -136,7 +136,7 @@ public class MyCourseScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Pass the loggedInUsername when creating a new MemberHomepage
-                new MemberHomepage(loggedInUsername);
+                new MemberHomepage(loggedInMember);
                 dispose();
             }
         });

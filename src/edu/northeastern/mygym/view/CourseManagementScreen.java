@@ -1,7 +1,7 @@
 package edu.northeastern.mygym.view;
 
-import edu.northeastern.mygym.database.DatabaseHelper;
 import edu.northeastern.mygym.model.Reservation;
+import edu.northeastern.mygym.model.user.Admin;
 
 import javax.swing.*;
 import java.awt.*;
@@ -11,10 +11,10 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class CourseManagementScreen extends JFrame {
-    private String loggedInUsername;
+    private Admin loggedInAdmin;
 
-    public CourseManagementScreen(String loggedInUsername) {
-        this.loggedInUsername = loggedInUsername;
+    public CourseManagementScreen(Admin loggedInAdmin) {
+        this.loggedInAdmin = loggedInAdmin;
         initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -34,7 +34,7 @@ public class CourseManagementScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    List<Reservation> reservations = DatabaseHelper.getAllReservations();
+                    List<Reservation> reservations = loggedInAdmin.listAllReservations();
                     
                     // Display reservations using JOptionPane
                     StringBuilder reservationInfo = new StringBuilder("Reservations:\n");
@@ -63,7 +63,7 @@ public class CourseManagementScreen extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Go back to the admin homepage
-                new AdminHomepage(loggedInUsername);
+                new AdminHomepage(loggedInAdmin);
                 dispose(); // Close the current screen
             }
         });

@@ -14,6 +14,9 @@ import java.util.List;
 import javax.swing.JOptionPane;
 
 public class DatabaseHelper {
+
+    public DatabaseHelper() {
+    }
     // Example method to fetch the first 10 courses from the database
 
     public static List<Course> getFirst10Courses() throws SQLException {

@@ -5,29 +5,25 @@ import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import edu.northeastern.mygym.model.user.Member;
+
 import javax.swing.*;
 
 public class MemberHomepage extends JFrame {
-    private String loggedInUsername;
+    private Member loggedInMember;
 
-    public MemberHomepage() {
-        this.loggedInUsername = "";
+    // Example of parameterized constructor
+    public MemberHomepage(Member loggedInMember) {
+        this.loggedInMember = loggedInMember;
         initializeComponents();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setVisible(true);
     }
-
-    public MemberHomepage(String loggedInUsername) {
-        this.loggedInUsername = loggedInUsername;
-        initializeComponents();
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
-
     private void initializeComponents() {
         setLayout(new GridBagLayout());
 
@@ -67,20 +63,25 @@ public class MemberHomepage extends JFrame {
 
     private JButton createMyAccountButton() {
         JButton myAccountButton = new JButton("My Account");
-        myAccountButton.setFont(new Font("Arial", Font.PLAIN, 25)); // Larger font
-        myAccountButton.addActionListener(e -> {
-            new MemberAccountScreen(loggedInUsername);
-            dispose();
+        myAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Open the MemberAccountScreen and pass the username
+                new MemberAccountScreen(loggedInMember); // Pass the actual username
+                dispose(); // Close the current homepage
+            }
         });
         return myAccountButton;
     }
 
     private JButton createMyCourseButton() {
         JButton myCourseButton = new JButton("My Course");
-        myCourseButton.setFont(new Font("Arial", Font.PLAIN, 25)); // Larger font
-        myCourseButton.addActionListener(e -> {
-            new MyCourseScreen(loggedInUsername);
-            dispose();
+        myCourseButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new MyCourseScreen(loggedInMember);
+                dispose();
+            }
         });
         return myCourseButton;
     }

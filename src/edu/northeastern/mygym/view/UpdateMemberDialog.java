@@ -1,6 +1,6 @@
 package edu.northeastern.mygym.view;
 
-import edu.northeastern.mygym.database.DatabaseHelper;
+import edu.northeastern.mygym.model.user.Admin;
 import edu.northeastern.mygym.model.user.User;
 
 import javax.swing.*;
@@ -10,14 +10,16 @@ import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 public class UpdateMemberDialog extends JDialog {
+    private Admin admin;
     private JTextField searchUsernameField;
     private JLabel existingNameLabel;
     private JLabel existingEmailLabel;
     private JTextField newNameField;
     private JTextField newEmailField;
 
-    public UpdateMemberDialog(JFrame parent) {
+    public UpdateMemberDialog(JFrame parent, Admin admin) {
         super(parent, "Update Member", true);
+        this.admin = admin;
         initializeComponents();
     }
 
@@ -51,7 +53,7 @@ public class UpdateMemberDialog extends JDialog {
                 try {
                     String searchUsername = searchUsernameField.getText();
                     // Call a method to get the existing name and email based on the username
-                    User existingUser = DatabaseHelper.getUserInfoByUsername(searchUsername);
+                    User existingUser = admin.getUserInfoByUserName(searchUsername);
 
                     if (existingUser != null) {
                         existingNameLabel.setText(existingUser.getName());
@@ -88,7 +90,7 @@ public class UpdateMemberDialog extends JDialog {
                     // Only update if at least one of the fields is non-empty
                     if (!newName.isEmpty() || !newEmail.isEmpty()) {
                         // Call a method to update the member in the database
-                        DatabaseHelper.updateMember(searchUsername, finalName, finalEmail);
+                        admin.updateMember(searchUsername, finalName, finalEmail);
 
                         // Close the dialog after updating the member
                         dispose();
@@ -115,7 +117,7 @@ public class UpdateMemberDialog extends JDialog {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                new UpdateMemberDialog(null);
+                new UpdateMemberDialog(null, null);
             }
         });
     }
