@@ -64,6 +64,7 @@ public class MemberHomepage extends JFrame {
 
     private JButton createMyAccountButton() {
         JButton myAccountButton = new JButton("My Account");
+        myAccountButton.setFont(new Font("Arial", Font.PLAIN, 25));
         myAccountButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -77,6 +78,7 @@ public class MemberHomepage extends JFrame {
 
     private JButton createMyCourseButton() {
         JButton myCourseButton = new JButton("My Course");
+        myCourseButton.setFont(new Font("Arial", Font.PLAIN, 25));
         myCourseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
