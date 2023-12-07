@@ -36,13 +36,13 @@ public class MemberHomepage extends JFrame {
         // Add "My Account" button
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.insets = new Insets(50, 70, 50, 50); // Increased vertical gap
+        gbc.insets = new Insets(10, 10, 10, 10); // Optional: Add some spacing
         buttonsPanel.add(myAccountButton, gbc);
 
         // Add "My Course" button
         gbc.gridx = 1;
         gbc.gridy = 0;
-        gbc.insets = new Insets(50, 50, 50, 70); // Increased vertical gap
+        gbc.insets = new Insets(10, 10, 10, 10); // Optional: Add some spacing
         buttonsPanel.add(myCourseButton, gbc);
 
         // Add buttonsPanel to the main frame
@@ -53,13 +53,14 @@ public class MemberHomepage extends JFrame {
         // Add "Logout" button in a new row with increased vertical gap
         gbc.gridx = 0;
         gbc.gridy = 1;
-        gbc.gridwidth = 2;
-        gbc.insets = new Insets(30, 10, 10, 10); // Further increased vertical gap
+        gbc.gridwidth = 2; // Span across both columns
+        gbc.insets = new Insets(20, 10, 10, 10); // Increase the top inset for more spacing
         add(logoutButton, gbc);
 
-        pack();
-        setLocationRelativeTo(null);
+        pack(); // Pack the frame to ensure proper layout
+        setLocationRelativeTo(null); // Center the frame on the screen
     }
+
 
     private JButton createMyAccountButton() {
         JButton myAccountButton = new JButton("My Account");
